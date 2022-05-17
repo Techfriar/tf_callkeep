@@ -200,6 +200,12 @@ public class VoiceConnectionService extends ConnectionService {
         return outgoingCallConnection;
     }
 
+    public static void setInitialized(boolean value) {
+        Log.d(TAG, "[VoiceConnectionService] setInitialized: " + (value ? "true" : "false"));
+
+        isInitialized = value;
+    }
+
     private void startForegroundService() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             // Foreground services not required before SDK 28

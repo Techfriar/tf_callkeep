@@ -52,6 +52,10 @@ public class VoiceConnection extends Connection {
         String number = handle.get(EXTRA_CALL_NUMBER);
         String name = handle.get(EXTRA_CALLER_NAME);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setConnectionProperties(Connection.PROPERTY_SELF_MANAGED);
+        }
+
         if (number != null) {
             setAddress(Uri.parse(number), TelecomManager.PRESENTATION_ALLOWED);
         }

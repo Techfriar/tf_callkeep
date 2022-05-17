@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "883583285194",
+    "project_id": "tf-callkeep",
+    "storage_bucket": "tf-callkeep.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883583285194:android:4df3c5451decf726684133",
+        "android_client_info": {
+          "package_name": "com.github.cloudwebrtc.flutter_callkeep_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883583285194-p4k75qi418q532dve56vo0obe015gqv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiznV35Sv7dCwg8Bb0Eh6RJctp8vqAgJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883583285194-p4k75qi418q532dve56vo0obe015gqv7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
