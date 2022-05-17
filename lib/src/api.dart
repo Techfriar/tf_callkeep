@@ -35,11 +35,6 @@ class FlutterCallkeep extends EventManager {
   Future<void> setup(BuildContext? context, Map<String, dynamic> options,
       {bool backgroundMode = false}) async {
     _context = context;
-    if (!isIOS) {
-      await _setupAndroid(
-          options['android'] as Map<String, dynamic>, backgroundMode);
-      return;
-    }
     await _setupIOS(options['ios'] as Map<String, dynamic>);
   }
 
@@ -296,25 +291,6 @@ class FlutterCallkeep extends EventManager {
     }
     return await _channel
         .invokeMethod<void>('setup', <String, dynamic>{'options': options});
-  }
-
-  Future<bool> _setupAndroid(
-      Map<String, dynamic> options, bool backgroundMode) async {
-    await _channel.invokeMethod<void>('setup', {'options': options});
-
-    if (backgroundMode) {
-      return true;
-    }
-
-    final showAccountAlert = await _checkPhoneAccountPermission(
-        options['additionalPermissions'] as List<String>);
-    final shouldOpenAccounts = await _alert(options, showAccountAlert);
-
-    if (shouldOpenAccounts) {
-      await _openPhoneAccounts();
-      return true;
-    }
-    return false;
   }
 
   Future<void> openPhoneAccounts() => _openPhoneAccounts();

@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:callkeep/callkeep.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-
-import 'package:callkeep/callkeep.dart';
 import 'package:uuid/uuid.dart';
 
 /// For fcm background message handler.
@@ -58,20 +57,7 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
           'ios': {
             'appName': 'CallKeepDemo',
           },
-          'android': {
-            'alertTitle': 'Permissions required',
-            'alertDescription':
-                'This application needs to access your phone accounts',
-            'cancelButton': 'Cancel',
-            'okButton': 'ok',
-            'foregroundService': {
-              'channelId': 'com.company.my',
-              'channelName': 'Foreground service for my app',
-              'notificationTitle': 'My app is running on background',
-              'notificationIcon':
-                  'Path to the resource icon of the notification',
-            },
-          },
+          'android': {},
         },
         backgroundMode: true);
     _callKeepInited = true;
@@ -121,6 +107,7 @@ class HomePage extends StatefulWidget {
 
 class Call {
   Call(this.number);
+
   String number;
   bool held = false;
   bool muted = false;
@@ -129,6 +116,7 @@ class Call {
 class _MyAppState extends State<HomePage> {
   final FlutterCallkeep _callKeep = FlutterCallkeep();
   Map<String, Call> calls = {};
+
   String newUUID() => Uuid().v4();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -261,23 +249,6 @@ class _MyAppState extends State<HomePage> {
       calls[callUUID] = Call(number);
     });
     print('Display incoming call now');
-    final bool hasPhoneAccount = await _callKeep.hasPhoneAccount();
-    if (!hasPhoneAccount) {
-      await _callKeep.hasDefaultPhoneAccount(context, <String, dynamic>{
-        'alertTitle': 'Permissions required',
-        'alertDescription':
-            'This application needs to access your phone accounts',
-        'cancelButton': 'Cancel',
-        'okButton': 'ok',
-        'foregroundService': {
-          'channelId': 'com.company.my',
-          'channelName': 'Foreground service for my app',
-          'notificationTitle': 'My app is running on background',
-          'notificationIcon': 'Path to the resource icon of the notification',
-        },
-      });
-    }
-
     print('[displayIncomingCall] $callUUID number: $number');
     _callKeep.displayIncomingCall(callUUID, number,
         handleType: 'number', hasVideo: false);
@@ -314,19 +285,7 @@ class _MyAppState extends State<HomePage> {
       'ios': {
         'appName': 'CallKeepDemo',
       },
-      'android': {
-        'alertTitle': 'Permissions required',
-        'alertDescription':
-            'This application needs to access your phone accounts',
-        'cancelButton': 'Cancel',
-        'okButton': 'ok',
-        'foregroundService': {
-          'channelId': 'com.company.my',
-          'channelName': 'Foreground service for my app',
-          'notificationTitle': 'My app is running on background',
-          'notificationIcon': 'Path to the resource icon of the notification',
-        },
-      },
+      'android': {}
     });
 
     if (Platform.isAndroid) {
