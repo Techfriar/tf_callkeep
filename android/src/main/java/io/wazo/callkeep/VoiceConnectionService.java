@@ -318,7 +318,7 @@ public class VoiceConnectionService extends ConnectionService {
         VoiceConnection connection = new VoiceConnection(this, extrasMap);
         connection.setConnectionCapabilities(Connection.CAPABILITY_MUTE | Connection.CAPABILITY_SUPPORT_HOLD);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Context context = getApplicationContext();
             TelecomManager telecomManager = (TelecomManager) context.getSystemService(context.TELECOM_SERVICE);
             PhoneAccount phoneAccount = telecomManager.getPhoneAccount(request.getAccountHandle());
@@ -326,12 +326,14 @@ public class VoiceConnectionService extends ConnectionService {
             //If the phone account is self managed, then this connection must also be self managed.
             if((phoneAccount.getCapabilities() & PhoneAccount.CAPABILITY_SELF_MANAGED) == PhoneAccount.CAPABILITY_SELF_MANAGED) {
                 Log.d(TAG, "[VoiceConnectionService] PhoneAccount is SELF_MANAGED, so connection will be too");
-                connection.setConnectionProperties(Connection.PROPERTY_SELF_MANAGED);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    connection.setConnectionProperties(Connection.PROPERTY_SELF_MANAGED);
+                }
             }
             else {
                 Log.d(TAG, "[VoiceConnectionService] PhoneAccount is not SELF_MANAGED, so connection won't be either");
             }
-        }
+//        }
 
         connection.setInitializing();
         connection.setExtras(extras);
