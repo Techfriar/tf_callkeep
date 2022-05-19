@@ -34,14 +34,12 @@ public class CallNotificationService extends Service {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         callerName = intent.getStringExtra("callerName");
@@ -51,13 +49,17 @@ public class CallNotificationService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showNotification() {
-        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Call notifications",
-                NotificationManager.IMPORTANCE_HIGH);
+        NotificationChannel channel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Call notifications",
+                    NotificationManager.IMPORTANCE_HIGH);
         channel.setDescription("Incoming call notifications");
+        }
         notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(channel);
+        }
 
         Intent callAcceptedIntent = new Intent(getApplicationContext(), CallHandler.class);
         callAcceptedIntent.putExtra(TAG_IS_CALL_ACCEPTED, true);

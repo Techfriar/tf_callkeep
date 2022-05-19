@@ -277,7 +277,12 @@ public class CallKeepModule {
         extras.putParcelable(TelecomManager.EXTRA_INCOMING_CALL_ADDRESS, uri);
         extras.putString(EXTRA_CALLER_NAME, callerName);
         extras.putString(EXTRA_CALL_UUID, uuid);
-        telecomManager.addNewIncomingCall(handle, extras);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            telecomManager.addNewIncomingCall(handle, extras);
+        }else {
+            telecomManager.addNewIncomingCall(null, extras);
+        }
 
         Intent intent = new Intent(_context, CallNotificationService.class);
         intent.putExtra("callerName",callerName);
@@ -600,6 +605,9 @@ public class CallKeepModule {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             builder = new PhoneAccount.Builder(handle, appName)
                     .setCapabilities(PhoneAccount.CAPABILITY_SELF_MANAGED);
+        }else {
+            builder = new PhoneAccount.Builder(handle, appName)
+                    .setCapabilities(PhoneAccount.CAPABILITY_CALL_PROVIDER);
         }
 
         if (_settings != null && _settings.hasKey("imageName")) {
