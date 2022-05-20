@@ -112,105 +112,127 @@ public class CallKeepModule {
     public boolean handleMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         switch(call.method) {
             case "setup": {
+                Log.i(TAG, "setup: called");
                 setup(new ConstraintsMap((Map<String, Object>)call.argument("options")));
                 result.success(null);
             }
             break;
             case "displayIncomingCall": {
+                Log.i(TAG, "displayIncomingCall: called");
                 displayIncomingCall((String)call.argument("uuid"), (String)call.argument("handle"), (String)call.argument("localizedCallerName"));
                 result.success(null);
             }
             break;
             case "answerIncomingCall": {
+                Log.i(TAG, "answerIncomingCall: called");
                 answerIncomingCall((String)call.argument("uuid"));
                 result.success(null);
             }
             break;
             case "startCall": {
+                Log.i(TAG, "startCall: called");
                 startCall((String)call.argument("uuid"), (String)call.argument("number"), (String)call.argument("callerName"));
                 result.success(null);
             }
             break;
             case "endCall": {
+                Log.i(TAG, "endCall: called");
                 endCall((String)call.argument("uuid"));
                 result.success(null);
             }
             break;
             case "endAllCalls": {
+                Log.i(TAG, "endAllCalls: called");
                 endAllCalls();
                 result.success(null);
             }
             break;
             case "checkPhoneAccountPermission": {
+                Log.i(TAG, "checkPhoneAccountPermission: called");
                 checkPhoneAccountPermission(new ConstraintsArray((ArrayList<Object>)call.argument("optionalPermissions")), result);
             }
             break;
             case "checkDefaultPhoneAccount": {
+                Log.i(TAG, "checkDefaultPhoneAccount: called");
                 checkDefaultPhoneAccount(result);
             }
             break;
             case "setOnHold": {
+                Log.i(TAG, "setOnHold: called");
                 setOnHold((String)call.argument("uuid"), (Boolean) call.argument("hold"));
                 result.success(null);
             }
             break;
             case "reportEndCallWithUUID": {
+                Log.i(TAG, "reportEndCallWithUUID: called");
                 reportEndCallWithUUID((String)call.argument("uuid"), (int)call.argument("reason"));
                 result.success(null);
             }
             break;
             case "rejectCall": {
+                Log.i(TAG, "rejectCall: called");
                 rejectCall((String)call.argument("uuid"));
                 result.success(null);
             }
             break;
             case "setMutedCall": {
+                Log.i(TAG, "setMutedCall: called");
                 setMutedCall((String)call.argument("uuid"), (Boolean)call.argument("muted"));
                 result.success(null);
             }
             break;
             case "sendDTMF": {
+                Log.i(TAG, "sendDTMF: called");
                 sendDTMF((String)call.argument("uuid"), (String)call.argument("key"));
                 result.success(null);
             }
             break;
             case "updateDisplay": {
+                Log.i(TAG, "updateDisplay: called");
                 updateDisplay((String)call.argument("uuid"), (String)call.argument("displayName"), (String)call.argument("handle"));
                 result.success(null);
             }
             break;
             case "hasPhoneAccount": {
+                Log.i(TAG, "hasPhoneAccount: called");
                 hasPhoneAccount(result);
             }
             break;
             case "hasOutgoingCall": {
+                Log.i(TAG, "hasOutgoingCall: called");
                 hasOutgoingCall(result);
             }
             break;
             case "setAvailable": {
+                Log.i(TAG, "setAvailable: called");
                 setAvailable((Boolean) call.argument("available"));
                 result.success(null);
             }
             break;
             case "setReachable": {
+                Log.i(TAG, "setReachable called");
                 setReachable();
                 result.success(null);
             }
             break;
             case "setCurrentCallActive": {
+                Log.i(TAG, "setCurrentCallActive called");
                 setCurrentCallActive((String)call.argument("uuid"));
                 result.success(null);
             }
             break;
             case "openPhoneAccounts": {
+                Log.i(TAG, "openPhoneAccounts called");
                 openPhoneAccounts(result);
             }
             break;
             case "backToForeground": {
+                Log.i(TAG, "backToForeground called");
                 backToForeground(result);
             }
             break;
             case "foregroundService": {
+                Log.i(TAG, "foregroundService called");
                 setSettings(new ConstraintsMap((Map<String, Object>)call.argument("settings")));
                 result.success(null);
             }
