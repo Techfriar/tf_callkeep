@@ -254,6 +254,10 @@ class _MyAppState extends State<HomePage> {
         handleType: 'number', hasVideo: false);
   }
 
+  Future<void> rejectCall(String callUUID)async {
+    _callKeep.rejectCall(callUUID);
+  }
+
   void didDisplayIncomingCall(CallKeepDidDisplayIncomingCall event) {
     var callUUID = event.callUUID;
     var number = event.handle;
@@ -389,7 +393,12 @@ class _MyAppState extends State<HomePage> {
                 },
                 child: const Text('Display incoming call now in 3s'),
               ),
-              buildCallingWidgets()
+              buildCallingWidgets(),
+              RaisedButton(onPressed: (){
+                rejectCall(calls.entries.first.key);
+              },
+              child: const Text("Decline call"),
+              )
             ],
           ),
         ),

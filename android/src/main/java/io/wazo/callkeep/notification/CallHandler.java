@@ -9,7 +9,7 @@ public class CallHandler extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        CallNotificationService.handleNotificationAction(intent);
+        CallNotificationService.handleNotificationAction(intent,context);
 
     }
 }

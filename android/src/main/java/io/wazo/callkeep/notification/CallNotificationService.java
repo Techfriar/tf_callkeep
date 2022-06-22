@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
@@ -13,12 +14,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.telecom.Connection;
 import android.util.Log;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import java.io.IOException;
 import io.wazo.callkeep.CallKeepModule;
+import io.wazo.callkeep.VoiceConnectionService;
 
 public class CallNotificationService extends Service {
     static MediaPlayer ringtonePlayer;
@@ -26,7 +28,14 @@ public class CallNotificationService extends Service {
     private static boolean isCallAccepted = false;
     private static String TAG_IS_CALL_ACCEPTED = "isCallAccepted";
     private String NOTIFICATION_CHANNEL_ID = "channel01";
+    private static int NOTIFICATION_ID=1;
     private static String callerName="Name",number="Number",uuid;
+
+    @Override
+    public void onDestroy() {
+        stopRingtone();
+        cancelNotification();
+    }
 
     @Nullable
     @Override
@@ -107,11 +116,14 @@ public class CallNotificationService extends Service {
                 .setFullScreenIntent(callAcceptedPendingIntent, true)
                 .build();
 
-        notificationManager.notify(0, notification);
+        notificationManager.notify(NOTIFICATION_ID, notification);
     }
 
 
     static void stopRingtone() {
+        if (ringtonePlayer==null){
+            return;
+        }
         ringtonePlayer.stop();
         ringtonePlayer.release();
 
@@ -121,13 +133,17 @@ public class CallNotificationService extends Service {
         notificationManager.cancelAll();
     }
 
-    static void handleNotificationAction(Intent intent) {
+    static void handleNotificationAction(Intent intent, Context context) {
         isCallAccepted = intent.getBooleanExtra(TAG_IS_CALL_ACCEPTED, false);
 
         if (isCallAccepted) {
             CallKeepModule.answerIncomingCall(uuid);
         } else {
-            CallKeepModule.rejectCall(uuid);
+            Connection conn = VoiceConnectionService.getConnection(uuid);
+            if (conn == null) {
+                return;
+            }
+            conn.onReject();
         }
 
         stopRingtone();
