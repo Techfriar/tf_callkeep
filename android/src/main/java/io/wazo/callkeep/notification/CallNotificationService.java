@@ -124,8 +124,12 @@ public class CallNotificationService extends Service {
         if (ringtonePlayer==null){
             return;
         }
-        ringtonePlayer.stop();
-        ringtonePlayer.release();
+        try {
+            ringtonePlayer.stop();
+            ringtonePlayer.release();
+        }catch (Exception e){
+
+        }
 
     }
 
